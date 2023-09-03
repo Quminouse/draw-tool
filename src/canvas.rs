@@ -40,13 +40,24 @@ impl Canvas {
         let index = self.get_index(x, y)?;
         Ok(self.pixels.get_mut(index).unwrap())
     }
+    pub fn get_coordinate(&self, index: usize) -> Result<(usize, usize), CanvasError> {
+        if index <= self.pixels.len() {
+            let x = index % self.width;
+            let y = (index - x) / self.width;
+            return Ok((x, y));
+        }
+        Err(CanvasError::IndexError)
+    }
     pub fn set_pixel(&mut self, x: usize, y: usize, color: u32) -> Result<(), CanvasError> {
         *self.get_pixel_mut(x, y)? = color;
         Ok(())
     }
     pub fn draw_circle(&mut self, x: usize, y: usize, circle: Circle) {
-        for (index, pixel) in self.pixels.iter_mut().enumerate() {
-            if 
+        for (index, pixel) in self.pixels.iter().enumerate() {
+            let (x2, y2) = self.get_coordinate(index).unwrap();
+            if x * x + y * y <= circle.radius * circle.radius {
+                println!("x: {}, y: {}", x, y);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 pub struct Circle {
-    radius: usize,
-    color: u32,
+    pub radius: usize,
+    pub color: u32,
 }
 
 impl Circle {
