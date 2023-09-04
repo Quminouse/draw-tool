@@ -1,4 +1,4 @@
-import { Canvas, Circle, Color } from "draw-tool";
+import { Canvas, Color } from "draw-tool";
 import { memory } from "draw-tool/draw_tool_bg";
 
 const WIDTH = 800;
@@ -13,8 +13,11 @@ const imageData = ctx.getImageData(0, 0, WIDTH, HEIGHT);
 
 {
     const rust_canvas = Canvas.new(WIDTH, HEIGHT);
-    rust_canvas.fill(Color.new(0, 0, 0));
-    rust_canvas.draw_circle(WIDTH / 2, HEIGHT / 2, Circle.new(50, Color.new(255, 255, 255)));
+    const red = Color.new(255, 0, 0);
+    const green = Color.new(0, 255, 0);
+    const blue = Color.new(0, 0, 255);
+    rust_canvas.fill(red);
+    rust_canvas.draw_circle(WIDTH / 2, HEIGHT / 2, 50, blue);
 
     render(rust_canvas);
 }

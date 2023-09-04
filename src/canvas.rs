@@ -10,7 +10,6 @@ pub struct Pixel {
     pub x: usize,
     pub y: usize,
 }
-
 impl Pixel {
     fn new(x: usize, y: usize) -> Self {
         return Pixel { x, y };
@@ -73,17 +72,13 @@ impl Canvas {
     pub fn fill(&mut self, color: Color) {
         self.pixels.fill(color.as_u32());
     }
-}
-
-impl std::fmt::Display for Canvas {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        for chunk in self.pixels.chunks(self.width) {
-            for pixel in chunk.iter() {
-                write!(f, "{:#01x} ", pixel)?;
+    pub fn draw_circle(&mut self, x: usize, y: usize, radius: usize, color: Color) {
+        for index in 0..self.size() {
+            let p2 = self.get_coordinate(index).unwrap();
+            if x.abs_diff(p2.x).pow(2) + y.abs_diff(p2.y).pow(2) <= radius.pow(2) {
+                *self.get_pixel_mut(p2).unwrap() = color.as_u32();
             }
-            writeln!(f, "")?;
         }
-        Ok(())
     }
 }
 
@@ -95,7 +90,6 @@ pub struct Color {
     pub g: u8,
     pub b: u8,
 }
-
 #[wasm_bindgen]
 impl Color {
     pub fn new(b: u8, g: u8, r: u8) -> Self {
