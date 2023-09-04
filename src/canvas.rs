@@ -80,6 +80,9 @@ impl Canvas {
             }
         }
     }
+    pub fn draw_line(&mut self, x1: usize, y1: usize, x2: usize, y2: usize) {
+        todo!();
+    }
 }
 
 #[wasm_bindgen]
