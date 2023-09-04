@@ -1,20 +1,24 @@
-import { Canvas, Shape, Color } from "draw-tool";
+import { Canvas, Circle, Color } from "draw-tool";
 import { memory } from "draw-tool/draw_tool_bg";
 
+const WIDTH = 800;
+const HEIGHT = 600;
+
 const js_canvas = document.getElementById("draw-canvas");
-js_canvas.width = 800;
-js_canvas.height = 600;
+js_canvas.width = WIDTH;
+js_canvas.height = HEIGHT;
 
 const ctx = js_canvas.getContext("2d");
-const imageData = ctx.getImageData(0, 0, js_canvas.width, js_canvas.height);
+const imageData = ctx.getImageData(0, 0, WIDTH, HEIGHT);
 
-const rust_canvas = Canvas.new(js_canvas.width, js_canvas.height);
+const rust_canvas = Canvas.new(WIDTH, HEIGHT);
 
 rust_canvas.fill(Color.new(0, 0, 0));
+rust_canvas.draw_circle(WIDTH / 2, HEIGHT / 2, Circle.new(50, Color.new(255, 255, 255)));
+
 render();
 
 function render() {
-    const u8array = new Uint8ClampedArray(memory.buffer, rust_canvas.get_pixels_ptr(), js_canvas.width * js_canvas.height * 4);
-    imageData.data.set(u8array);
+    imageData.data.set(new Uint8ClampedArray(memory.buffer, rust_canvas.get_pixels_ptr(), WIDTH * HEIGHT * 4));
     ctx.putImageData(imageData, 0, 0);
 }
